@@ -1,0 +1,30 @@
+Installing Apache Web Server
+--------------------------------
+sudo apt update
+sudo apt-get update
+sudo apt upgrade -y
+sudo apt autoremove
+sudo apt install apache2 -y
+
+Verify Installation
+-----------------------------
+
+service apache2 status
+systemctl status apache2
+
+http://System_IP_address
+http://localhost
+
+Root Document Directory
+--------------------------------
+
+cd /var/www/html
+ls
+
+Apache Configuration File
+------------------------------
+
+cd /etc/apache2/
+ls -al
+
+

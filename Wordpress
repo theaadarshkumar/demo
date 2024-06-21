@@ -1,0 +1,17 @@
+-Pull Wordpress Project from git
+-Run Following Command:
+	- wp core download
+	- wp core download --skip-content (In Linux/Ubuntu)
+
+-Configuration of wp-config.php file
+	- cp wp-config-sample.php wp-config.php
+	- Change Database Values
+		- Database-User-Name
+		- Database-Password
+
+-Create Virtual_host to the Project Folder before-Wp-Content Directory
+-Make entry in the /etc/hosts File
+-Run Search and Replace
+-$ wp search-replace 'foo' 'bar' wp_posts wp_postmeta wp_terms --dry-run
+
+-update links (Wp-options)

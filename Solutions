@@ -1,0 +1,138 @@
+If npm run dev is not working?
+-------------------------------------
+cd /etc/
+sudo vim hosts
+--Add 127.0.0.1 localhost
+
+How to find php.ini File ?
+---------------------------------------
+php -i | grep php.ini
+Configuration File (php.ini) Path=> /etc/php/7.4/cli
+Loaded Configuation file => /etc/php/7.4/php.ini
+
+
+
+
+If error generated while run php artisian migrate command
+------------------------------------------------------------------
+Verify Database_Name in .env file
+Verify User_Name in .env file
+Verify that User is not locked in mysql_phpmyadin
+if user is locked THEN
+	mysql -u root
+	CREATE USER 'name'@'localhost' IDENTIFIED WITH mysql_native_password BY '1234';
+	GRANT ALL PRIVILEGES ON *.* TO 'name'@'localhost'
+	
+Login with different user in phpmyadmin and Unlock The user
+
+If Error:Module php does not exist in apahe2 in Linux
+------------------------------------------------------
+$ sudo apt purge libapache2-mod-php7.4 libapache2-mod-php
+$ sudo apt-get install libapache2-mod-php7.4
+$ cd /etc/apache2/mods-available
+$ ls -al | grep php
+-----Available php modules will list-------
+$ sudo a2enmod php7.4
+$ sudo service apache2 stop
+$ sudo service apache2 start
+
+
+Forbidden – You don’t have permission to access / on this server (in Apache2)
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+$ sudo chmod -R 775 /path/to/webroot/directory
+$ sudo chown -R user:group /path/to/webroot/directory
+$ sudo systemctl restart apache2
+
+
+Install Apache2 and Confgure Virtual Host in Ubuntu ?
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+https://www.tecmint.com/install-apache-with-virtual-hosts-on-debian-10/
+
+Install Nginx Server in Linux and Configure Server Blocks (V_HOST) ?
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+https://www.tecmint.com/install-nginx-with-server-blocks-on-debian-10/
+
+
+Rsync Command Use
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+sudo apt install rsync
+sudo apt instal openssh-server
+
+-a = archiver
+-v = verbose
+-h = human readable format
+-z = compress
+
+sudo rsync -avhz --progress localFilePath User@IP_address:/Path/To/Remote/Folder
+sudo rysnc -avhz --progress /home/morgan/Downloads/Morgan.php Melik:192.168.20.199:/home/Melik/Download/Morgan_files/
+
+
+
+Install Multiple PHP version in Ubuntu with PHP-FPM
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+https://www.digitalocean.com/community/tutorials/how-to-run-multiple-php-versions-on-one-server-using-apache-and-php-fpm-on-ubuntu-20-04
+
+sudo apt-get install software-properties-common -y
+sudo add-apt-repository ppa:ondrej/php
+sudo apt-get update -y
+sudo apt-get install php7.2 php7.2-fpm php7.2-mysql libapache2-mod-php7.2 libapache2-mod-fcgid -y
+sudo apt-get install php7.3 php7.3-fpm php7.3-mysql libapache2-mod-php7.3 -y
+
+
+
+How to Install NVM in Ubuntu ?
+---------------------------------------------------------------------------------------
+https://tecadmin.net/how-to-install-nvm-on-ubuntu-20-04/
+
+sudo apt install curl
+curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash 
+source ~/.bashrc   
+nvm --verion
+nvm ls
+
+
+
+
+How to install NPM in Ubuntu ?
+------------------------------------------------------------------------------------------
+https://linuxize.com/post/how-to-install-node-js-on-ubuntu-20-04/
+
+
+---------------------------------------------------------------------------------------------------
+How to install Phpmyadmin in Ubuntu ?
+-----------------------------------------------------------------------------------------------------
+sudo add-apt-repository universe
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install phpmyadmin
+sudo phpenmod mbstring
+sudo systemctl restart apache2
+sudo mysql
+CREATE USER 'UserName'@'localhost' IDENTIFIED BY 'PassWord';
+GRANT ALL PRIVILEGES ON *.* TO 'UserName'@'localhost' WITH GRANT OPTION;
+localhost/phpMyAdmin
+
+
+--------------------------------------------------------------------------------------------
+What to do, if phpmyadmin showing Error like (The mysqli extension is missing. Please check your PHP configuration)
+---------------------------------------------------------------------------------------------------------------------
+
+Find out which php.ini is used.
+In file php.ini this line:
+extension=mysqli
+Replace by:
+extension="C:\php\ext\php_mysqli.dll"
+Restart apache
+
+
+sudo apt install php[version]-mysql
+systemctl reload apache2
+
+
+-----------------------------------------------------------------------------------------------------
+WARNING: Module mbstring ini file doesn't exist under /etc/php/[verision]/mods-available ?
+-----------------------------------------------------------------------------------------------------
+sudo phpenmod mbstring
+sudo apt-get install php8.1-mbstring
+sudo phpenmod mbstring
+sudo systemctl restart apache2
+

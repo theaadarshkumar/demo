@@ -1,0 +1,96 @@
+open -a “Sublime Text” /usr/local/etc/httpd/httpd.conf
+
+Change
+ServerName www.example.com:80
+To
+ServerName localhost
+
+Uncomment
+LoadModule vhost_alias_module libexec/apache2/mod_vhost_alias.so
+
+Uncomment
+Include /usr/local/etc/httpd/extra/httpd-vhosts.conf
+
+# Modify virtual host
+open -a “Sublime Text” /usr/local/etc/httpd/extra/httpd-vhosts.conf
+
+Replace the entire contents of this file with the following, replacing indieweb with your user name.
+
+<VirtualHost *:80>
+ServerName localhost
+DocumentRoot “/usr/local/var/www”
+
+<Directory “/usr/local/var/www”>
+Options Indexes FollowSymLinks
+AllowOverride All
+Order allow,deny
+Allow from all
+Require all granted
+</Directory>
+</VirtualHost>
+
+# Restart Apache
+sudo apachectl restart
+
+# Configure SSL
+
+sudo mkdir /etc/apache2/ssl
+
+# Generate a private key and certificate for your site.
+sudo openssl genrsa -out /etc/apache2/ssl/localhost.key 2048
+sudo openssl req -new -x509 -key /etc/apache2/ssl/localhost.key -out /etc/apache2/ssl/localhost.crt -days 3650 -subj /CN=localhost
+
+# Add the certificate to Keychain Access.
+sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain /etc/apache2/ssl/localhost.crt
+
+# Setting up a Trusted Virtual Host
+Within Terminal, edit the Apache Configuration.
+
+open -a “Sublime Text” /usr/local/etc/httpd/httpd.conf
+
+Uncomment
+LoadModule socache_shmcb_module lib/httpd/modules/mod_socache_shmcb.so
+LoadModule ssl_module lib/httpd/modules/mod_ssl.so
+Include /usr/local/etc/httpd/extra/httpd-ssl.conf
+
+open -a “Sublime Text” /usr/local/etc/httpd/extra/httpd-vhosts.conf
+
+<VirtualHost *:443>
+ServerName localhost
+DocumentRoot “/usr/local/var/www”
+
+SSLEngine on
+SSLCipherSuite ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP:+eNULL
+SSLCertificateFile /etc/apache2/ssl/localhost.crt
+SSLCertificateKeyFile /etc/apache2/ssl/localhost.key
+
+<Directory “/usr/local/var/www”>
+Options Indexes FollowSymLinks
+AllowOverride All
+Order allow,deny
+Allow from all
+Require all granted
+</Directory>
+</VirtualHost>
+
+open -a “Sublime Text” /usr/local/etc/httpd/extra/httpd-ssl.conf
+Comment out to skip the default Server Certificate and Server Private Key.
+
+#SSLCerificateFile “/private/etc/apache2/server.crt”
+#SSLCertificateKeyFile “/private/etc/apache2/server.key”
+
+And replace with
+
+SSLCertificateFile “/etc/apache2/ssl/localhost.crt”
+SSLCertificateKeyFile “/etc/apache2/ssl/localhost.key”
+
+Change
+Listen 8443
+To
+Listen 433
+
+Change
+ServerName localhost
+
+# Restart apache
+sudo apachectl restart

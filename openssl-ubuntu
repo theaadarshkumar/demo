@@ -1,0 +1,57 @@
+$ sudo a2enmod ssl
+$ sudo systemctl restart apache2
+Request a New Key-Certificate using openSSL
+----------------------------------------------------------------------------------------------------------------------------------
+$ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/morgan.edu.key -out /etc/ssl/certs/morgan.edu.cert
+
+Go to Virtual Host Configuration File Path /etc/apache2/sites-available/
+Create New File With Naming Convention Like : [Domain_Name]-ssl.conf
+Example :-
+$ sudo vim morgan.edu-ssl.conf
+Add The Following Lines To This File
+
+<Virtualhost *:443>
+ServerName morgan.edu
+ServerAlias www.morgan.edu
+DocumentRoot /var/www/morgan.edu/public_html/
+<Directory “/Users/administrator/Documents/wordpress”>
+    AllowOverride All
+    Options Indexes MultiViews FollowSymLinks
+    Require all granted
+</Directory>
+SSLEngine on
+SSLCertificateKeyFile /etc/ssl/private/morgan.com.key
+SSLCertificateFile /etc/ssl/certs/morgan.com.cert
+
+</Virtualhost>
+
+Save The File and Quit
+Now open Virtual Host Configuration File /etc/apache2/sites-available/morgan.edu.conf
+Add The Following Line at Last to The File : -
+
+<VirtualHost *:80>
+ServerName morgan.edu
+ServerAlias www.morgan.edu
+ServerAdmin webmaster@localhost
+DocumentRoot /var/www/morgan.edu/public_html
+
+
+ErrorLog ${APACHE_LOG_DIR}/error.log
+CustomLog ${APACHE_LOG_DIR}/access.log combined
+~ redirect / https://morgan.edu
+
+</VirtualHost>
+
+Basically it is a Redirection to HTTPS
+Now Enable Virtual Host Configuration File
+$ sudo a2ensite morgan.edu.conf
+$ sudo a2ensite morgan.edu-ssl.conf
+Now Verify Syntax
+$ sudo apachectl -t
+If Syntax is OK then restart apache2 else troubleshoot the Problem
+$ sudo apachectl -k restart
+Now Test The HTTP->HTTPS
+Open Browser and Type
+
+https://morgan.edu
+

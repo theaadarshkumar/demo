@@ -1,0 +1,25 @@
+----------------------------------
+Apache on Ubuntu-20
+----------------------------------
+-SSH into server which running HTTP wepsite
+-Install Sanpd
+-Ensure Snapd version is upto-date
+	sudo snap install core ; sudo snap refresh core
+-Remove certbot-auto and any other Certbot OS packages
+	sudo apt-get remove certbot
+-Install Certbot
+	sudo snap install --classic certbot
+-Prepare the certbot command
+	sudo ln -s /snap/bin/certbot /usr/bin/certbot
+-Choose how you'd like to run Certbot
+	Either get and install your certificates...
+	To get a certificate and have Certbot edit your apache configuration automatically to serve it, turning on HTTPS access in a single step.
+		sudo certbot --apache
+	Or, just get a certificate
+	If you're feeling more conservative and would like to make the changes to your apache configuration by hand, run this command.
+		sudo certbot certonly --apache
+-Test automatic renewal
+	sudo certbot renew --dry-run
+-Confirm that certbot worked
+	https://yourwebsite.com/
+

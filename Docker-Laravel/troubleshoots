@@ -1,0 +1,5 @@
+Match docker-compose postgres Environments variables with the Laravel ENV file
+Now run the following command with the port number
+	5455 - ENV
+	5432 - docker-compose-postgres
+sudo docker run --name postgres-db -e POSTGRES_PASSWORD=X8gebsss -e POSTGRES_USER=ebs -e POSTGRES_DB=ebs -p 5455:5432 -d postgres
